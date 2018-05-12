@@ -22,36 +22,37 @@ new_post = "imaging databases"
 import nltk.stem
 english_stemmer = nltk.stem.SnowballStemmer('english')
 
-
+#统计整个数据集的信息
 class StemmedCountVectorizer(CountVectorizer):
-
     def build_analyzer(self):
         analyzer = super(StemmedCountVectorizer, self).build_analyzer()
         return lambda doc: (english_stemmer.stem(w) for w in analyzer(doc))
 
-# vectorizer = CountVectorizer(min_df=1, stop_words='english',
-# preprocessor=stemmer)
-vectorizer = StemmedCountVectorizer(min_df=1, stop_words='english')
-
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-
 class StemmedTfidfVectorizer(TfidfVectorizer):
-
     def build_analyzer(self):
         analyzer = super(StemmedTfidfVectorizer, self).build_analyzer()
         return lambda doc: (english_stemmer.stem(w) for w in analyzer(doc))
 
-vectorizer = StemmedTfidfVectorizer(
-    min_df=1, stop_words='english', decode_error='ignore')
+# vectorizer = CountVectorizer(min_df=1, stop_words='english')
+vectorizer = StemmedCountVectorizer(min_df=1, stop_words='english')
+# vectorizer = StemmedTfidfVectorizer(min_df=1, stop_words='english', decode_error='ignore')
+
+#获取停用词表
+# print(vectorizer.get_stop_words())
 
 X_train = vectorizer.fit_transform(posts)
-
 num_samples, num_features = X_train.shape
+print("datasets shape : {}".format(X_train.shape))
+# 打印词表
+print("word dictionary : ",vectorizer.get_feature_names())
+
 print("#samples: %d, #features: %d" % (num_samples, num_features))
 
+
 new_post_vec = vectorizer.transform([new_post])
-print(new_post_vec, type(new_post_vec))
+print(new_post_vec)
+print(type(new_post_vec))
 print(new_post_vec.toarray())
 print(vectorizer.get_feature_names())
 
@@ -73,14 +74,12 @@ dist = dist_norm
 
 best_dist = sys.maxsize
 best_i = None
-
 for i in range(0, num_samples):
     post = posts[i]
     if post == new_post:
         continue
     post_vec = X_train.getrow(i)
     d = dist(post_vec, new_post_vec)
-
     print("=== Post %i with dist=%.2f: %s" % (i, d, post))
 
     if d < best_dist:

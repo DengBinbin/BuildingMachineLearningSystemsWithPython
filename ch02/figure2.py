@@ -39,7 +39,7 @@ else:
 
 # Plot from 90% of smallest value to 110% of largest value
 # (all feature values are positive, otherwise this would not work very well)
-
+#x0、x1分别为画图时x轴的最小值与最大值，y0、y1同理
 x0 = features[:, f0].min() * .9
 x1 = features[:, f0].max() * 1.1
 
@@ -47,8 +47,8 @@ y0 = features[:, f1].min() * .9
 y1 = features[:, f1].max() * 1.1
 
 fig,ax = plt.subplots()
-ax.fill_between([t, x1], [y0, y0], [y1, y1], color=area2c)
-ax.fill_between([x0, t], [y0, y0], [y1, y1], color=area1c)
+ax.fill_between([t, x1], y0, y1, color=area2c)
+ax.fill_between([x0, t], y0, y1, color=area1c)
 ax.plot([t, t], [y0, y1], 'k--', lw=2)
 ax.plot([t2, t2], [y0, y1], 'k:', lw=2)
 ax.scatter(features[is_virginica, f0],

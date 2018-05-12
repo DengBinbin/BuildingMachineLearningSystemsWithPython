@@ -23,11 +23,12 @@ E.g. we now fully rely on scikit's fetch_20newsgroups() instead of requiring
 you to download the data manually from MLCOMP.
 If you have any questions, please ask at http://www.twotoreal.com
 """)
-
+# 获取数据
 all_data = sklearn.datasets.fetch_20newsgroups(subset="all")
 print("Number of total posts: %i" % len(all_data.filenames))
 # Number of total posts: 18846
 
+#设置指定的类来过滤数据集
 groups = [
     'comp.graphics', 'comp.os.ms-windows.misc', 'comp.sys.ibm.pc.hardware',
     'comp.sys.mac.hardware', 'comp.windows.x', 'sci.space']
@@ -44,9 +45,7 @@ english_stemmer = nltk.stem.SnowballStemmer('english')
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-
 class StemmedTfidfVectorizer(TfidfVectorizer):
-
     def build_analyzer(self):
         analyzer = super(TfidfVectorizer, self).build_analyzer()
         return lambda doc: (english_stemmer.stem(w) for w in analyzer(doc))
@@ -90,7 +89,6 @@ print(("Silhouette Coefficient: %0.3f" %
 
 new_post_vec = vectorizer.transform([new_post])
 new_post_label = km.predict(new_post_vec)[0]
-
 similar_indices = (km.labels_ == new_post_label).nonzero()[0]
 
 similar = []

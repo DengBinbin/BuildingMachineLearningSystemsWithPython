@@ -33,6 +33,7 @@ for t in range(3):
             features[target == t, 1],
             marker=marker,
             c=c)
+plt.show()
 # We use NumPy fancy indexing to get an array of strings:
 labels = target_names[target]
 

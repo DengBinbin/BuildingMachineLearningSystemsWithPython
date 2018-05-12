@@ -16,9 +16,7 @@ data = sp.genfromtxt(os.path.join(DATA_DIR, "web_traffic.tsv"), delimiter="\t")
 print(data[:10])
 print(data.shape)
 
-# all examples will have three classes in this file
-colors = ['g', 'k', 'b', 'm', 'r']
-linestyles = ['-', '-.', '--', ':', '-']
+
 
 x = data[:, 0]
 y = data[:, 1]
@@ -29,7 +27,9 @@ y = y[~sp.isnan(y)]
 
 def plot_models(x, y, models, fname, mx=None, ymax=None, xmin=None):
     ''' plot input data '''
-
+    # all examples will have three classes in this file
+    colors = ['g', 'k', 'b', 'm', 'r']
+    linestyles = ['-', '-.', '--', ':', '-']
     plt.figure(num=None, figsize=(8, 6))
     plt.clf()
     plt.scatter(x, y, s=10)

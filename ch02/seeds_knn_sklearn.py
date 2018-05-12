@@ -25,20 +25,23 @@ for ei in range(n):
     training[ei] = 0
     testing = ~training
     classifier.fit(features[training], labels[training])
-    pred = classifier.predict(features[ei])
+    pred = classifier.predict(features[ei].reshape(1,7))
     correct += (pred == labels[ei])
 print('Result of leave-one-out: {}'.format(correct/n))
 
 # Import KFold object
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 
 # means will hold the mean for each fold
 means = []
 
 # kf is a generator of pairs (training,testing) so that each iteration
 # implements a separate fold.
-kf = KFold(len(features), n_folds=3, shuffle=True)
-for training,testing in kf:
+kf = KFold(n_splits=5,  shuffle=True)
+kf.get_n_splits(features)
+
+
+for training, testing in kf.split(features):
     # We learn a model for this fold with `fit` and then apply it to the
     # testing data with `predict`:
     classifier.fit(features[training], labels[training])
@@ -54,7 +57,7 @@ print('Result of cross-validation using KFold: {}'.format(means))
 # single function call
 
 from sklearn.cross_validation import cross_val_score
-crossed = cross_val_score(classifier, features, labels)
+crossed = cross_val_score(classifier, features, labels, cv=5)
 print('Result of cross-validation using cross_val_score: {}'.format(crossed))
 
 # The results above use the features as is, which we learned was not optimal
@@ -74,7 +77,7 @@ names = list(set(labels))
 labels = np.array([names.index(ell) for ell in labels])
 preds = labels.copy()
 preds[:] = -1
-for train, test in kf:
+for train, test in kf.split(features):
     classifier.fit(features[train], labels[train])
     preds[test] = classifier.predict(features[test])
 
