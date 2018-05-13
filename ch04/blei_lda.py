@@ -5,8 +5,9 @@
 #
 # It is made available under the MIT License
 
-from __future__ import print_function
-from wordcloud import create_cloud
+# from __future__ import print_function
+import os
+import sys
 try:
     from gensim import corpora, models, matutils
 except:
@@ -14,43 +15,49 @@ except:
     print()
     print("Please install it")
     raise
-
 import matplotlib.pyplot as plt
 import numpy as np
-from os import path
+
+from wordcloud import create_cloud
 
 NUM_TOPICS = 100
+os.chdir(os.path.dirname(sys.argv[0]))
+# ROOT_DIR = (os.path.dirname(__file__))
 
 # Check that data exists
-if not path.exists('./data/ap/ap.dat'):
+if not os.path.exists('./data/ap/ap.dat'):
     print('Error: Expected data to be present at data/ap/')
     print('Please cd into ./data & run ./download_ap.sh')
 
 # Load the data
 corpus = corpora.BleiCorpus('./data/ap/ap.dat', './data/ap/vocab.txt')
 
-# Build the topic model
+# 构建主题模型
 model = models.ldamodel.LdaModel(
     corpus, num_topics=NUM_TOPICS, id2word=corpus.id2word, alpha=None)
-
-# Iterate over all the topics in the model
+# topics中的每一个元素为某篇文档的主题分布[(topic_index, topic_weight)]
+topics = [model[c] for c in corpus]
+print(topics[-1])
+# 遍历所有的主题
 for ti in range(model.num_topics):
-    words = model.show_topic(ti, 64)
+    #words为某一个主题的词语分布,64为显示该主题的topn词语
+    words = model.show_topic(ti, topn=64)
+    #tf为某一主题的topn词概率和，如体育主题中有（篮球，0.3），（足球，0.22），（乒乓球，0.12）
+    # 如果topn为词表大小，则tf为1
     tf = sum(f for _, f in words)
-    with open('topics.txt', 'w') as output:
+    #将结果写入文件
+    with open('topics.txt', 'a') as output:
         output.write('\n'.join('{}:{}'.format(w, int(1000. * f / tf)) for w, f in words))
         output.write("\n\n\n")
 
+
 # We first identify the most discussed topic, i.e., the one with the
 # highest total weight
-
 topics = matutils.corpus2dense(model[corpus], num_terms=model.num_topics)
 weight = topics.sum(1)
 max_topic = weight.argmax()
 
-
-# Get the top 64 words for this topic
-# Without the argument, show_topic would return only 10 words
+# 返回最高前64个词
 words = model.show_topic(max_topic, 64)
 
 # This function will actually check for the presence of pytagcloud and is otherwise a no-op
@@ -65,22 +72,20 @@ fig.tight_layout()
 fig.savefig('Figure_04_01.png')
 
 
-# Now, repeat the same exercise using alpha=1.0
-# You can edit the constant below to play around with this parameter
-ALPHA = 1.0
+#对比不同alpha参数生成的主题模型之间的差异，并通过画图对其进行可视化
+# ALPHA = 1.0
 
-model1 = models.ldamodel.LdaModel(
-    corpus, num_topics=NUM_TOPICS, id2word=corpus.id2word, alpha=ALPHA)
-num_topics_used1 = [len(model1[doc]) for doc in corpus]
+# model1 = models.ldamodel.LdaModel(
+#     corpus, num_topics=NUM_TOPICS, id2word=corpus.id2word, alpha=ALPHA)
+# num_topics_used1 = [len(model1[doc]) for doc in corpus]
+# fig,ax = plt.subplots()
+# ax.hist([num_topics_used, num_topics_used1], np.arange(42))
+# ax.set_ylabel('Nr of documents')
+# ax.set_xlabel('Nr of topics')
+# # The coordinates below were fit by trial and error to look good
+# ax.text(9, 223, r'default alpha')
+# ax.text(26, 156, 'alpha=1.0')
+# fig.tight_layout()
+# fig.savefig('Figure_04_02.png')
 
-fig,ax = plt.subplots()
-ax.hist([num_topics_used, num_topics_used1], np.arange(42))
-ax.set_ylabel('Nr of documents')
-ax.set_xlabel('Nr of topics')
-
-# The coordinates below were fit by trial and error to look good
-ax.text(9, 223, r'default alpha')
-ax.text(26, 156, 'alpha=1.0')
-fig.tight_layout()
-fig.savefig('Figure_04_02.png')
 
