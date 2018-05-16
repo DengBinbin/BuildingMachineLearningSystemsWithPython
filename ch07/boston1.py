@@ -13,18 +13,19 @@
 import numpy as np
 from sklearn.datasets import load_boston
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 from matplotlib import pyplot as plt
 
 boston = load_boston()
 x = boston.data
 y = boston.target
-
+print(x.shape)
 # Fitting a model is trivial: call the ``fit`` method in LinearRegression:
 lr = LinearRegression()
 lr.fit(x, y)
 
 # The instance member `residues_` contains the sum of the squared residues
-rmse = np.sqrt(lr.residues_/len(x))
+rmse = np.sqrt(lr._residues/len(x))
 print('RMSE: {}'.format(rmse))
 
 fig, ax = plt.subplots()

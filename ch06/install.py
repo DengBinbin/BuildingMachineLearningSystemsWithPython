@@ -45,11 +45,9 @@ at https://github.com/sixohsix/twitter, most likely:
 """)
 
     sys.exit(1)
-
 from twitterauth import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET
 api = twitter.Twitter(auth=twitter.OAuth(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET,
                                          token=ACCESS_TOKEN_KEY, token_secret=ACCESS_TOKEN_SECRET))
-
 DATA_PATH = "data"
 
 # for some reasons TWeets disappear. In this file we collect those

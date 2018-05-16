@@ -15,6 +15,8 @@ from sklearn.cross_validation import KFold
 
 # Load data:
 data, target = load_svmlight_file('data/E2006.train')
+data = data[:100,:]
+target = target[:100]
 
 lr = LinearRegression()
 

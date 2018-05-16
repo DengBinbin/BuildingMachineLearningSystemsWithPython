@@ -37,10 +37,42 @@ def tweak_labels(Y, pos_sent_list):
     return Y
 
 
+# def load_sanders_data(dirname=".", line_count=-1):
+#     count = 0
+
+#     topics = []
+#     labels = []
+#     tweets = []
+
+#     with open(os.path.join(DATA_DIR, dirname, "corpus.csv"), "r") as csvfile:
+#         metareader = csv.reader(csvfile, delimiter=',', quotechar='"')
+#         for line in metareader:
+#             count += 1
+#             if line_count > 0 and count > line_count:
+#                 break
+
+#             topic, label, tweet_id = line
+
+#             tweet_fn = os.path.join(
+#                 DATA_DIR, dirname, 'rawdata', '%s.json' % tweet_id)
+#             try:
+#                 tweet = json.load(open(tweet_fn, "r"))
+#             except IOError:
+#                 print(("Tweet '%s' not found. Skip." % tweet_fn))
+#                 continue
+
+#             if 'text' in tweet and tweet['user']['lang'] == "en":
+#                 topics.append(topic)
+#                 labels.append(label)
+#                 tweets.append(tweet['text'])
+
+#     tweets = np.asarray(tweets)
+#     labels = np.asarray(labels)
+
+#     return tweets, labels
+
 def load_sanders_data(dirname=".", line_count=-1):
     count = 0
-
-    topics = []
     labels = []
     tweets = []
 
@@ -70,7 +102,6 @@ def load_sanders_data(dirname=".", line_count=-1):
     labels = np.asarray(labels)
 
     return tweets, labels
-
 
 def plot_pr(auc_score, name, phase, precision, recall, label=None):
     pylab.clf()
