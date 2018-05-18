@@ -39,9 +39,9 @@ def compute_texture(im):
 
 @TaskGenerator
 def chist(fname):
-    from features import color_histogram
+    from features import chist
     im = mh.imread(fname)
-    return color_histogram(im)
+    return chist(im)
 
 @TaskGenerator
 def compute_lbp(fname):

@@ -30,7 +30,8 @@ def plot_demo_1():
     fig = pylab.figure(figsize=(10, 4))
 
     ax = fig.add_subplot(121, projection='3d')
-    ax.set_axis_bgcolor('white')
+    ax.set_facecolor('white')
+    # ax.set_axis_bgcolor('white')
 
     mds = manifold.MDS(n_components=3)
     Xtrans = mds.fit_transform(X)
@@ -62,10 +63,14 @@ def plot_iris_mds():
 
     # MDS
 
-    fig = pylab.figure(figsize=(10, 4))
-
+    fig = pylab.figure(figsize=(10, 4), facecolor='b')
+    print(dir(fig))
     ax = fig.add_subplot(121, projection='3d')
-    ax.set_axis_bgcolor('white')
+    for item in(dir(ax)):
+        if item.find("color")>0:
+            print(item)
+    ax.set_facecolor('white')
+    # ax.set_axis_bgcolor('white')
 
     mds = manifold.MDS(n_components=3)
     Xtrans = mds.fit_transform(X)
@@ -93,7 +98,8 @@ def plot_iris_mds():
     fig = pylab.figure(figsize=(10, 4))
 
     ax = fig.add_subplot(121, projection='3d')
-    ax.set_axis_bgcolor('white')
+    ax.set_facecolor('white')
+    # ax.set_axis_bgcolor('white')
 
     pca = decomposition.PCA(n_components=3)
     Xtrans = pca.fit(X).transform(X)
