@@ -34,7 +34,7 @@ def plot_correlation_demo():
     np.random.seed(1)  # to reproduce the data later on
     pylab.clf()
     pylab.figure(num=None, figsize=(8, 8))
-    x = np.arange(0, 10, 0.2)
+    x = np.arange(0, 10, 0.2) 
 
     pylab.subplot(221)
     y = 0.5 * x + norm.rvs(1, scale=.01, size=len(x))

@@ -38,8 +38,8 @@ features = np.hstack([chists, haralicks])
 print('Computing neighbors...')
 sc = StandardScaler()
 features = sc.fit_transform(features)
+#计算距离矩阵
 dists = distance.squareform(distance.pdist(features))
-
 print('Plotting...')
 fig, axes = plt.subplots(2, 9, figsize=(16,8))
 

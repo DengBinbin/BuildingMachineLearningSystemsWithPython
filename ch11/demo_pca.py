@@ -11,8 +11,8 @@ from matplotlib import pylab
 import numpy as np
 
 from sklearn import linear_model, decomposition
-from sklearn import lda
-
+# from sklearn import lda
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as lda
 logistic = linear_model.LogisticRegression()
 
 
@@ -182,5 +182,5 @@ def plot_simple_demo_lda():
 
 if __name__ == '__main__':
     plot_simple_demo_1()
-    plot_simple_demo_2()
-    plot_simple_demo_lda()
+    # plot_simple_demo_2()
+    # plot_simple_demo_lda()

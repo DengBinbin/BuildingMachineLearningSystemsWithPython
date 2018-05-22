@@ -30,7 +30,7 @@ def plot_demo_1():
     fig = pylab.figure(figsize=(10, 4))
 
     ax = fig.add_subplot(121, projection='3d')
-    ax.set_facecolor('white')
+    ax.set_facecolor('white') 
     # ax.set_axis_bgcolor('white')
 
     mds = manifold.MDS(n_components=3)

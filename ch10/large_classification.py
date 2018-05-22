@@ -37,7 +37,7 @@ def images():
     '''
     for ci, cl in enumerate(classes):
         images = glob('{}/{}/*.jpg'.format(basedir, cl))
-        for im in sorted(images):
+        for im in sorted(images[:50]):
             yield im, ci
 
 classes = [

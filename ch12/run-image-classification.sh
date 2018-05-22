@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-jug execute image-classification.py
+jug execute --will-cite image-classification.py

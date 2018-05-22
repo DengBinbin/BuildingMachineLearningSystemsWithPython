@@ -15,17 +15,26 @@ from utils import CHART_DIR
 
 
 def mutual_info(x, y, bins=10):
+    print(x,y)
     counts_xy, bins_x, bins_y = np.histogram2d(x, y, bins=(bins, bins))
     counts_x, bins = np.histogram(x, bins=bins)
+    print(bins)
     counts_y, bins = np.histogram(y, bins=bins)
-
+    print(bins)
+    print(counts_xy, counts_x, counts_y)
     counts_xy += 1
     counts_x += 1
     counts_y += 1
+    print(counts_xy, counts_x, counts_y)
     P_xy = counts_xy / np.sum(counts_xy, dtype=float)
+    print(np.sum(counts_xy, dtype=float))
+    print(P_xy)
     P_x = counts_x / np.sum(counts_x, dtype=float)
     P_y = counts_y / np.sum(counts_y, dtype=float)
-
+    print(counts_x, P_x)
+    print(P_x.reshape(-1,1).shape)
+    print(P_y.shape)
+    print((P_x.reshape(-1, 1) * P_y).shape)
     I_xy = np.sum(P_xy * np.log2(P_xy / (P_x.reshape(-1, 1) * P_y)))
 
     return I_xy / (entropy(counts_x) + entropy(counts_y))
@@ -57,6 +66,7 @@ def plot_entropy():
 def _plot_mi_func(x, y):
 
     mi = mutual_info(x, y)
+    print("mi:{}".format(mi))
     title = "NI($X_1$, $X_2$) = %.3f" % mi
     pylab.scatter(x, y)
     pylab.title(title)
@@ -75,17 +85,17 @@ def plot_mi_demo():
     y = 0.5 * x + norm.rvs(1, scale=.01, size=len(x))
     _plot_mi_func(x, y)
 
-    pylab.subplot(222)
-    y = 0.5 * x + norm.rvs(1, scale=.1, size=len(x))
-    _plot_mi_func(x, y)
+    # pylab.subplot(222)
+    # y = 0.5 * x + norm.rvs(1, scale=.1, size=len(x))
+    # _plot_mi_func(x, y)
 
-    pylab.subplot(223)
-    y = 0.5 * x + norm.rvs(1, scale=1, size=len(x))
-    _plot_mi_func(x, y)
+    # pylab.subplot(223)
+    # y = 0.5 * x + norm.rvs(1, scale=1, size=len(x))
+    # _plot_mi_func(x, y)
 
-    pylab.subplot(224)
-    y = norm.rvs(1, scale=10, size=len(x))
-    _plot_mi_func(x, y)
+    # pylab.subplot(224)
+    # y = norm.rvs(1, scale=10, size=len(x))
+    # _plot_mi_func(x, y)
 
     pylab.autoscale(tight=True)
     pylab.grid(True)
@@ -93,32 +103,32 @@ def plot_mi_demo():
     filename = "mi_demo_1.png"
     pylab.savefig(os.path.join(CHART_DIR, filename), bbox_inches="tight")
 
-    pylab.clf()
-    pylab.figure(num=None, figsize=(8, 8))
+    # pylab.clf()
+    # pylab.figure(num=None, figsize=(8, 8))
 
-    x = np.arange(-5, 5, 0.2)
+    # x = np.arange(-5, 5, 0.2)
 
-    pylab.subplot(221)
-    y = 0.5 * x ** 2 + norm.rvs(1, scale=.01, size=len(x))
-    _plot_mi_func(x, y)
+    # pylab.subplot(221)
+    # y = 0.5 * x ** 2 + norm.rvs(1, scale=.01, size=len(x))
+    # _plot_mi_func(x, y)
 
-    pylab.subplot(222)
-    y = 0.5 * x ** 2 + norm.rvs(1, scale=.1, size=len(x))
-    _plot_mi_func(x, y)
+    # pylab.subplot(222)
+    # y = 0.5 * x ** 2 + norm.rvs(1, scale=.1, size=len(x))
+    # _plot_mi_func(x, y)
 
-    pylab.subplot(223)
-    y = 0.5 * x ** 2 + norm.rvs(1, scale=1, size=len(x))
-    _plot_mi_func(x, y)
+    # pylab.subplot(223)
+    # y = 0.5 * x ** 2 + norm.rvs(1, scale=1, size=len(x))
+    # _plot_mi_func(x, y)
 
-    pylab.subplot(224)
-    y = 0.5 * x ** 2 + norm.rvs(1, scale=10, size=len(x))
-    _plot_mi_func(x, y)
+    # pylab.subplot(224)
+    # y = 0.5 * x ** 2 + norm.rvs(1, scale=10, size=len(x))
+    # _plot_mi_func(x, y)
 
-    pylab.autoscale(tight=True)
-    pylab.grid(True)
+    # pylab.autoscale(tight=True)
+    # pylab.grid(True)
 
-    filename = "mi_demo_2.png"
-    pylab.savefig(os.path.join(CHART_DIR, filename), bbox_inches="tight")
+    # filename = "mi_demo_2.png"
+    # pylab.savefig(os.path.join(CHART_DIR, filename), bbox_inches="tight")
 
 if __name__ == '__main__':
     plot_entropy()

@@ -11,7 +11,7 @@ from time import sleep
 
 @TaskGenerator
 def double(x):
-    sleep(4)
+    sleep(10)
     return 2 * x
 
 
@@ -29,6 +29,6 @@ input = 2
 y = double(input)
 z = double(y)
 
-y2 = double(7)
+y2 = double(8)
 z2 = double(y2)
 print_final_result('output.txt', add(z, z2))

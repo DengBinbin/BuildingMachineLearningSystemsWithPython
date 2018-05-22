@@ -32,7 +32,6 @@ for fname in sorted(images):
     chists.append(chist_file(fname))
     # The class is encoded in the filename as xxxx00.jpg
     labels.append(fname[:-len('00.jpg')])
-
 haralicks = to_array(haralicks)
 chists = to_array(chists)
 labels = to_array(labels)
