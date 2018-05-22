@@ -1,6 +1,7 @@
 *.pyc
 .ipynb_checkpoints
 *.png
+*.jpg
 *.zip
 *.txt
 *.rar
