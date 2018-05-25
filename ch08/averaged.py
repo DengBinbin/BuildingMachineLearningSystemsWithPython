@@ -30,4 +30,4 @@ def main():
     print('R2 averaged: {:.2%}'.format(r2))
 
 if __name__ == '__main__':
-    main()
+    main() #R2 averaged: 31.31%

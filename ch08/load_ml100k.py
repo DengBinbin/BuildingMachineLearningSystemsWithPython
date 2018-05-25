@@ -22,7 +22,7 @@ def load():
     data = np.loadtxt('data/ml-100k/u.data')
     ij = data[:, :2]
     ij -= 1  # original data is in 1-based system
-    values = data[:, 2]
+    values = data[:, 2]    
     reviews = sparse.csc_matrix((values, ij.T)).astype(float)
     return reviews.toarray()
 

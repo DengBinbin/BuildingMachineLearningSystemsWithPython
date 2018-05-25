@@ -19,15 +19,16 @@ def predict(train):
     train = norm.fit_transform(train)
 
     filled = train.copy()
-    # iterate over all users
+    # 对于用户u
     for u in range(train.shape[0]):
-        # remove the current user for training
+        # curtrain是去掉了用户u的训练集
         curtrain = np.delete(train, u, axis=0)
         bu = binary[u]
+        #对于那些打分总数超过5的用户才进行预测
         if np.sum(bu) > 5:
+            #输入是其余用户对 用户u打过分的这些电影 的打分，标签是用户u实际的打分
             reg.fit(curtrain[:,bu].T, train[u, bu])
-
-            # Fill the values that were not there already
+            # 对于用户u没打分的那部分电影进行预测
             filled[u, ~bu] = reg.predict(curtrain[:,~bu].T)
     return norm.inverse_transform(filled)
 
@@ -46,5 +47,5 @@ def main(transpose_inputs=False):
         r2))
 
 if __name__ == '__main__':
-    main()
-    main(transpose_inputs=True)
+    main() #R2 score (user regression): 30.0%
+    main(transpose_inputs=True)#R2 score (movie regression): 30.9%
