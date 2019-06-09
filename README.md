@@ -13,4 +13,4 @@ first edition is available in [first\_edition
 branch](https://github.com/luispedro/BuildingMachineLearningSystemsWithPython/tree/first_edition).
 
 ## 机器学习系统设计
-本仓库记录一些个人在《机器学习系统设计》一书中的理解
+本仓库记录一些个人在《机器学习系统设计》一书中的理解，增加了部分的中文注释。
